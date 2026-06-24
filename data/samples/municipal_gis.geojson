@@ -1,0 +1,71 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "FACILITY_NAME": "Riverside Playground",
+        "LAND_USE_CODE": "101",
+        "FACILITY_TYPE": "park",
+        "ADDRESS": "680 Riverside Dr",
+        "ZONE": "R-1"
+      },
+      "geometry": { "type": "Point", "coordinates": [-73.9812, 40.8015] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FACILITY_NAME": "Lincoln Elementary",
+        "LAND_USE_CODE": "102",
+        "FACILITY_TYPE": "school",
+        "ADDRESS": "140 West 66th St",
+        "ZONE": "C-2"
+      },
+      "geometry": { "type": "Point", "coordinates": [-73.9828, 40.7742] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FACILITY_NAME": "Westside Medical Center",
+        "LAND_USE_CODE": "103",
+        "FACILITY_TYPE": "hospital",
+        "ADDRESS": "1000 10th Ave",
+        "ZONE": "M-1"
+      },
+      "geometry": { "type": "Point", "coordinates": [-73.9871, 40.7698] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FACILITY_NAME": "Corner Deli & Grill",
+        "LAND_USE_CODE": "105",
+        "FACILITY_TYPE": "restaurant",
+        "ADDRESS": "220 W 79th St",
+        "ZONE": "C-1"
+      },
+      "geometry": { "type": "Point", "coordinates": [-73.9795, 40.7833] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FACILITY_NAME": "Neighborhood Grocers",
+        "LAND_USE_CODE": "104",
+        "FACILITY_TYPE": "retail",
+        "ADDRESS": "450 Amsterdam Ave",
+        "ZONE": "C-1"
+      },
+      "geometry": { "type": "Point", "coordinates": [-73.9768, 40.7861] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FACILITY_NAME": "Amsterdam Parking Lot",
+        "LAND_USE_CODE": "106",
+        "FACILITY_TYPE": "parking",
+        "ADDRESS": "300 Amsterdam Ave",
+        "ZONE": "P-1"
+      },
+      "geometry": { "type": "Point", "coordinates": [-73.9775, 40.781] }
+    }
+  ]
+}

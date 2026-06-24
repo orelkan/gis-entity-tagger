@@ -1,0 +1,91 @@
+[
+  {
+    "type": "node",
+    "id": 1001,
+    "lat": 40.758,
+    "lon": -73.9855,
+    "tags": {
+      "amenity": "restaurant",
+      "name": "The Grill Room",
+      "cuisine": "american",
+      "addr:city": "New York"
+    }
+  },
+  {
+    "type": "node",
+    "id": 1002,
+    "lat": 40.7614,
+    "lon": -73.9776,
+    "tags": {
+      "shop": "supermarket",
+      "name": "City Fresh Market",
+      "brand": "FreshCo",
+      "addr:street": "Lexington Ave"
+    }
+  },
+  {
+    "type": "node",
+    "id": 1003,
+    "lat": 40.7484,
+    "lon": -73.9857,
+    "tags": {
+      "amenity": "hospital",
+      "name": "Bellevue Hospital",
+      "emergency": "yes"
+    }
+  },
+  {
+    "type": "node",
+    "id": 1004,
+    "lat": 40.7678,
+    "lon": -73.9718,
+    "tags": {
+      "leisure": "park",
+      "name": "Carl Schurz Park"
+    }
+  },
+  {
+    "type": "node",
+    "id": 1005,
+    "lat": 40.7527,
+    "lon": -73.9772,
+    "tags": {
+      "amenity": "cafe",
+      "name": "Morning Brew Cafe",
+      "outdoor_seating": "yes"
+    }
+  },
+  {
+    "type": "node",
+    "id": 1006,
+    "lat": 40.7505,
+    "lon": -73.9934,
+    "tags": {
+      "amenity": "school",
+      "name": "PS 234 Elementary",
+      "grades": "K-5"
+    }
+  },
+  {
+    "type": "node",
+    "id": 1007,
+    "lat": 40.7569,
+    "lon": -73.9896,
+    "tags": {
+      "amenity": "parking",
+      "name": "Midtown Garage",
+      "fee": "yes"
+    }
+  },
+  {
+    "type": "node",
+    "id": 1008,
+    "lat": 40.7536,
+    "lon": -73.9832,
+    "tags": {
+      "amenity": "library",
+      "name": "Mid-Manhattan Library",
+      "opening_hours": "Mo-Sa 10:00-18:00"
+    }
+  }
+]

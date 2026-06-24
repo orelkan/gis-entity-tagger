@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Joe's Pizza",
+    "types": ["restaurant", "food", "point_of_interest", "establishment"],
+    "formatted_address": "7 Carmine St, New York, NY",
+    "latitude": 40.7308,
+    "longitude": -74.0024,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "name": "Whole Foods Market",
+    "types": ["supermarket", "grocery_or_supermarket", "food", "store"],
+    "formatted_address": "95 E Houston St, New York, NY",
+    "latitude": 40.7234,
+    "longitude": -73.9921,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "name": "Mount Sinai Hospital",
+    "types": ["hospital", "health", "point_of_interest", "establishment"],
+    "formatted_address": "1468 Madison Ave, New York, NY",
+    "latitude": 40.7903,
+    "longitude": -73.9529,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "name": "Central Park",
+    "types": ["park", "tourist_attraction", "point_of_interest"],
+    "formatted_address": "New York, NY",
+    "latitude": 40.7829,
+    "longitude": -73.9654,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "name": "NYU Langone",
+    "types": ["doctor", "health", "hospital", "point_of_interest"],
+    "formatted_address": "550 1st Ave, New York, NY",
+    "latitude": 40.7421,
+    "longitude": -73.9742,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "name": "Starbucks",
+    "types": ["cafe", "food", "store", "point_of_interest"],
+    "formatted_address": "874 Broadway, New York, NY",
+    "latitude": 40.7386,
+    "longitude": -73.9897,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "name": "Public Library",
+    "types": ["library", "point_of_interest", "establishment"],
+    "formatted_address": "476 5th Ave, New York, NY",
+    "latitude": 40.7532,
+    "longitude": -73.9822,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "name": "24 Hour Parking Garage",
+    "types": ["parking", "point_of_interest"],
+    "formatted_address": "124 W 24th St, New York, NY",
+    "latitude": 40.7445,
+    "longitude": -73.9931,
+    "business_status": "OPERATIONAL"
+  }
+]
