@@ -2,6 +2,8 @@
 
 Ingest GIS entities from heterogeneous sources, automatically tag them with Google Place types using an LLM pipeline, and review results in a web UI with map and feedback.
 
+**[Live demo →](https://gis-entity-tagger.onrender.com)**
+
 ## Stack
 
 - **Backend:** Python 3.11+, FastAPI, SQLite, SQLAlchemy
