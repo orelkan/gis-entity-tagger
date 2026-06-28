@@ -1,15 +1,17 @@
-import { Link, Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 
 export function Layout() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <Link to="/" className="brand">
+        <NavLink to="/" className="brand">
           GIS Text Tagger
-        </Link>
+        </NavLink>
         <nav>
-          <Link to="/">Dashboard</Link>
-          <Link to="/entities">Entities</Link>
+          <NavLink to="/" end>
+            Dashboard
+          </NavLink>
+          <NavLink to="/entities">Entities</NavLink>
         </nav>
       </header>
       <main className="app-main">
