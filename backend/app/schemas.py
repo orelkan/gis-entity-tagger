@@ -52,6 +52,7 @@ class EntitySummary(BaseModel):
     confidence: float | None = None
     has_feedback: bool = False
     feedback_correct: bool | None = None
+    geometry: Geometry | None = None
 
 
 class EntityDetail(BaseModel):

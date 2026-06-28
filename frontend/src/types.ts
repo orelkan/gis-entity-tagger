@@ -33,6 +33,7 @@ export interface EntitySummary {
   confidence: number | null
   has_feedback: boolean
   feedback_correct: boolean | null
+  geometry: Geometry | null
 }
 
 export interface EntityDetail {

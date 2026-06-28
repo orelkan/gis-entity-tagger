@@ -110,6 +110,7 @@ def list_entities(
                 confidence=tagging.get("confidence"),
                 has_feedback=row.feedback_correct is not None,
                 feedback_correct=row.feedback_correct,
+                geometry=row.normalized.get("geometry"),
             )
         )
 
