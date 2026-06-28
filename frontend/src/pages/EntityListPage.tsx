@@ -4,6 +4,8 @@ import { EntitiesMap } from '../components/EntitiesMap'
 import { EntityDetailModal } from '../components/EntityDetailModal'
 import type { EntitySummary } from '../types'
 
+type MobileTab = 'list' | 'map'
+
 const SOURCES = ['', 'google_places_csv', 'osm_export', 'municipal_gis']
 
 function sourceLabel(source: string) {
@@ -28,6 +30,7 @@ export function EntityListPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [detailId, setDetailId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
+  const [mobileTab, setMobileTab] = useState<MobileTab>('list')
   const selectedRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -53,7 +56,25 @@ export function EntityListPage() {
   }
 
   return (
-    <div className="entities-shell">
+    <div className={`entities-shell entities-shell--${mobileTab}`}>
+      {/* Tab bar — only visible on mobile via CSS */}
+      <div className="mobile-tab-bar">
+        <button
+          type="button"
+          className={`mobile-tab${mobileTab === 'list' ? ' active' : ''}`}
+          onClick={() => setMobileTab('list')}
+        >
+          List
+        </button>
+        <button
+          type="button"
+          className={`mobile-tab${mobileTab === 'map' ? ' active' : ''}`}
+          onClick={() => setMobileTab('map')}
+        >
+          Map
+        </button>
+      </div>
+
       <div className="entities-sidebar">
         <div className="sidebar-header">
           <h1>Entities</h1>
