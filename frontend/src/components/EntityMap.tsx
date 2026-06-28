@@ -1,4 +1,16 @@
-import { LayersControl, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { useEffect } from 'react'
+import { LayersControl, MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+
+function MapResizer() {
+  const map = useMap()
+  useEffect(() => {
+    const container = map.getContainer()
+    const observer = new ResizeObserver(() => { map.invalidateSize() })
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [map])
+  return null
+}
 import L from 'leaflet'
 import type { Geometry } from '../types'
 import 'leaflet/dist/leaflet.css'
@@ -66,6 +78,7 @@ export function EntityMap({ geometry, name, predictedType, height = '280px' }: E
         scrollWheelZoom={false}
         style={{ height: '100%', width: '100%' }}
       >
+        <MapResizer />
         <LayersControl position="topright">
           <LayersControl.BaseLayer checked name="Dark">
             <TileLayer url={TILES.dark.url} attribution={TILES.dark.attribution} />

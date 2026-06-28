@@ -3,6 +3,17 @@ import { CircleMarker, LayersControl, MapContainer, Popup, TileLayer, useMap } f
 import 'leaflet/dist/leaflet.css'
 import type { EntitySummary } from '../types'
 
+function MapResizer() {
+  const map = useMap()
+  useEffect(() => {
+    const container = map.getContainer()
+    const observer = new ResizeObserver(() => { map.invalidateSize() })
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [map])
+  return null
+}
+
 const TILES = {
   dark: {
     url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
@@ -73,6 +84,7 @@ export function EntitiesMap({ entities, selectedId, onSelect }: EntitiesMapProps
       style={{ height: '100%', width: '100%' }}
       scrollWheelZoom
     >
+      <MapResizer />
       <LayersControl position="topright">
         <LayersControl.BaseLayer checked name="Dark">
           <TileLayer url={TILES.dark.url} attribution={TILES.dark.attribution} />
