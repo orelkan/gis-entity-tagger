@@ -87,6 +87,8 @@ export function EntityDetailModal({ id, onClose, onFeedbackChange }: Props) {
     }
   }
 
+  const attributes = entity ? Object.entries(entity.normalized.attributes) : []
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -117,22 +119,45 @@ export function EntityDetailModal({ id, onClose, onFeedbackChange }: Props) {
         </div>
 
         {error && (
-          <div className="banner banner-error" style={{ margin: '0 1.25rem 0' }}>
+          <div className="banner banner-error" style={{ margin: '0 1.25rem' }}>
             {error}
           </div>
         )}
 
         {entity && (
           <div className="modal-body">
-            <div className="modal-map">
+            {/* Left: map + original source data */}
+            <div className="modal-left">
               <EntityMap
                 geometry={entity.normalized.geometry}
                 name={entity.normalized.name}
                 predictedType={entity.tagging?.predicted_type}
-                height="200px"
+                height="190px"
               />
+
+              <div className="source-data">
+                <p className="source-data-label">Original data</p>
+
+                {entity.normalized.text_context && (
+                  <p className="text-context">{entity.normalized.text_context}</p>
+                )}
+
+                {attributes.length > 0 && (
+                  <table className="attr-table">
+                    <tbody>
+                      {attributes.map(([k, v]) => (
+                        <tr key={k}>
+                          <td className="attr-key">{k}</td>
+                          <td className="attr-val">{String(v)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
             </div>
 
+            {/* Right: tagging + feedback */}
             <div className="modal-right">
               {entity.tagging ? (
                 <div className="tagging-block">
@@ -205,9 +230,7 @@ export function EntityDetailModal({ id, onClose, onFeedbackChange }: Props) {
                     {submitting ? 'Saving…' : 'Submit feedback'}
                   </button>
                   {saved && (
-                    <span style={{ fontSize: '0.85rem', color: 'var(--badge-ok-fg)' }}>
-                      Saved
-                    </span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--badge-ok-fg)' }}>Saved</span>
                   )}
                 </div>
               </form>

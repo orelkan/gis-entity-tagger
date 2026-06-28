@@ -1,7 +1,22 @@
 import { useEffect, useRef } from 'react'
-import { CircleMarker, MapContainer, Popup, TileLayer, useMap } from 'react-leaflet'
+import { CircleMarker, LayersControl, MapContainer, Popup, TileLayer, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import type { EntitySummary } from '../types'
+
+const TILES = {
+  dark: {
+    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+  },
+  satellite: {
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri &mdash; Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP',
+  },
+  street: {
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+}
 
 function getLatLng(entity: EntitySummary): [number, number] | null {
   if (!entity.geometry || entity.geometry.type !== 'Point') return null
@@ -58,12 +73,21 @@ export function EntitiesMap({ entities, selectedId, onSelect }: EntitiesMapProps
       style={{ height: '100%', width: '100%' }}
       scrollWheelZoom
     >
-      <TileLayer
-        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-      />
+      <LayersControl position="topright">
+        <LayersControl.BaseLayer checked name="Dark">
+          <TileLayer url={TILES.dark.url} attribution={TILES.dark.attribution} />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Satellite">
+          <TileLayer url={TILES.satellite.url} attribution={TILES.satellite.attribution} />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Street">
+          <TileLayer url={TILES.street.url} attribution={TILES.street.attribution} />
+        </LayersControl.BaseLayer>
+      </LayersControl>
+
       <BoundsSync entities={entities} />
       <FlyTo selectedId={selectedId} entities={entities} />
+
       {entities.map((entity) => {
         const latLng = getLatLng(entity)
         if (!latLng) return null
