@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchEntities } from '../api'
+import { EntitiesMap } from '../components/EntitiesMap'
 import type { EntitySummary } from '../types'
 
 const SOURCES = ['', 'google_places_csv', 'osm_export', 'municipal_gis']
@@ -24,6 +25,8 @@ export function EntityListPage() {
   const [feedbackFilter, setFeedbackFilter] = useState<'all' | 'pending' | 'reviewed'>('all')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const selectedRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setLoading(true)
@@ -45,104 +48,145 @@ export function EntityListPage() {
       .finally(() => setLoading(false))
   }, [page, source, search, feedbackFilter])
 
+  useEffect(() => {
+    selectedRef.current?.scrollIntoView({ block: 'nearest' })
+  }, [selectedId])
+
+  const selectedEntity = items.find((e) => e.id === selectedId) ?? null
   const totalPages = Math.max(1, Math.ceil(total / 15))
 
   return (
-    <div className="page">
-      <div className="page-header">
-        <div>
+    <div className="entities-shell">
+      {/* Sidebar */}
+      <div className="entities-sidebar">
+        <div className="sidebar-header">
           <h1>Entities</h1>
-          <p className="subtitle">{total} entities from multiple GIS sources</p>
+          <p className="subtitle">{total} entities</p>
         </div>
+
+        <div className="sidebar-filters">
+          <input
+            type="search"
+            placeholder="Search by name…"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value)
+              setPage(1)
+            }}
+          />
+          <select
+            value={source}
+            onChange={(e) => {
+              setSource(e.target.value)
+              setPage(1)
+            }}
+          >
+            {SOURCES.map((s) => (
+              <option key={s || 'all'} value={s}>
+                {s ? sourceLabel(s) : 'All sources'}
+              </option>
+            ))}
+          </select>
+          <select
+            value={feedbackFilter}
+            onChange={(e) => {
+              setFeedbackFilter(e.target.value as typeof feedbackFilter)
+              setPage(1)
+            }}
+          >
+            <option value="all">All review status</option>
+            <option value="pending">Pending review</option>
+            <option value="reviewed">Reviewed</option>
+          </select>
+        </div>
+
+        {error && (
+          <div className="banner banner-error" style={{ margin: '0.75rem' }}>
+            {error}
+          </div>
+        )}
+
+        <div className="entity-list">
+          {loading ? (
+            <p style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+              Loading…
+            </p>
+          ) : items.length === 0 ? (
+            <p style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+              No entities found. Load sample data from the Dashboard.
+            </p>
+          ) : (
+            items.map((entity) => (
+              <div
+                key={entity.id}
+                ref={entity.id === selectedId ? selectedRef : undefined}
+                className={`entity-row${entity.id === selectedId ? ' selected' : ''}`}
+                onClick={() => setSelectedId(entity.id === selectedId ? null : entity.id)}
+              >
+                <span className="entity-row-name">{entity.name}</span>
+                <div className="entity-row-meta">
+                  <span>{sourceLabel(entity.source)}</span>
+                  {feedbackBadge(entity)}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {selectedEntity && (
+          <div className="sidebar-detail">
+            <h3>{selectedEntity.name}</h3>
+            <div className="sidebar-detail-row">
+              <span>Source</span>
+              <span>{sourceLabel(selectedEntity.source)}</span>
+            </div>
+            {selectedEntity.predicted_type && (
+              <div className="sidebar-detail-row">
+                <span>Type</span>
+                <span>
+                  <code>{selectedEntity.predicted_type}</code>
+                </span>
+              </div>
+            )}
+            {selectedEntity.confidence != null && (
+              <div className="sidebar-detail-row">
+                <span>Confidence</span>
+                <span>{Math.round(selectedEntity.confidence * 100)}%</span>
+              </div>
+            )}
+            <div className="sidebar-detail-row">
+              <span>Review</span>
+              <span>{feedbackBadge(selectedEntity)}</span>
+            </div>
+            <Link to={`/entities/${selectedEntity.id}`} className="sidebar-detail-link">
+              View full detail →
+            </Link>
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className="sidebar-pagination">
+            <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+              ←
+            </button>
+            <span>
+              {page} / {totalPages}
+            </span>
+            <button
+              type="button"
+              disabled={page >= totalPages}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              →
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="filters">
-        <input
-          type="search"
-          placeholder="Search by name…"
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value)
-            setPage(1)
-          }}
-        />
-        <select
-          value={source}
-          onChange={(e) => {
-            setSource(e.target.value)
-            setPage(1)
-          }}
-        >
-          {SOURCES.map((s) => (
-            <option key={s || 'all'} value={s}>
-              {s ? sourceLabel(s) : 'All sources'}
-            </option>
-          ))}
-        </select>
-        <select
-          value={feedbackFilter}
-          onChange={(e) => {
-            setFeedbackFilter(e.target.value as typeof feedbackFilter)
-            setPage(1)
-          }}
-        >
-          <option value="all">All review status</option>
-          <option value="pending">Pending review</option>
-          <option value="reviewed">Reviewed</option>
-        </select>
+      {/* Map */}
+      <div className="entities-map-wrap">
+        <EntitiesMap entities={items} selectedId={selectedId} onSelect={setSelectedId} />
       </div>
-
-      {error && <div className="banner banner-error">{error}</div>}
-      {loading ? (
-        <p>Loading…</p>
-      ) : items.length === 0 ? (
-        <p>No entities found. Load sample data from the Dashboard.</p>
-      ) : (
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Source</th>
-                <th>Predicted type</th>
-                <th>Confidence</th>
-                <th>Review</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((entity) => (
-                <tr key={entity.id}>
-                  <td>
-                    <Link to={`/entities/${entity.id}`}>{entity.name}</Link>
-                  </td>
-                  <td>{sourceLabel(entity.source)}</td>
-                  <td>
-                    <code>{entity.predicted_type ?? '—'}</code>
-                  </td>
-                  <td>
-                    {entity.confidence != null ? `${Math.round(entity.confidence * 100)}%` : '—'}
-                  </td>
-                  <td>{feedbackBadge(entity)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-            Previous
-          </button>
-          <span>
-            Page {page} of {totalPages}
-          </span>
-          <button type="button" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
-            Next
-          </button>
-        </div>
-      )}
     </div>
   )
 }
