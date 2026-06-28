@@ -40,7 +40,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(entities_router)
+app.include_router(entities_router, prefix="/api")
 
 
 @app.get("/health")

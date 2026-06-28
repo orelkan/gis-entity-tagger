@@ -5,7 +5,7 @@ import type {
   StatsResponse,
 } from './types'
 
-const BASE = import.meta.env.DEV ? '/api' : ''
+const BASE = '/api'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${BASE}${path}`, {
